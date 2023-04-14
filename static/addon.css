@@ -1,0 +1,4 @@
+html:has(.marketplace-main .addon-actions) {
+  --data-addons: --append() "%ID%";
+  --css-rule-import: url("actions.css");
+}

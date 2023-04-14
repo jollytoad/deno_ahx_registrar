@@ -1,0 +1,10 @@
+.marketplace-main .addon-actions {
+  min-height: 2em;
+}
+
+.marketplace-main .addon-actions::before {
+  --hx-get: url("actions");
+  --hx-include: closest form;
+  --hx-params: id, augmentation, action;
+  --hx-trigger: load once;
+}
