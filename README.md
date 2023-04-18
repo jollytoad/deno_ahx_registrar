@@ -40,8 +40,7 @@ deno task deploy
 This will deploy a staging version of the addon, which you'll need to promote to
 production manually in the Deploy UI.
 
-You'll also need to set `REGISTRY_URL` as an environment variable in the
-UI too.
+You'll also need to set `REGISTRY_URL` as an environment variable in the UI too.
 
 ## Registering the addon
 
