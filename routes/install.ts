@@ -1,7 +1,10 @@
 import { byMethod } from "$http_fns/method.ts";
-import { getBodyAsObject } from "$http_fns/request.ts";
-import { errorResponse, notFound, ok } from "$http_fns/response.ts";
+import { getBodyAsObject } from "$http_fns/request/body_as_object.ts";
 import { registerAugmentation } from "@/lib/registry.ts";
+import { notFound } from "$http_fns/response/not_found.ts";
+import { badRequest } from "$http_fns/response/bad_request.ts";
+import { noContent } from "$http_fns/response/no_content.ts";
+import { plainError } from "$http_fns/response/plain_error.ts";
 
 export default byMethod({
   POST: performInstall,
@@ -25,7 +28,7 @@ async function performInstall(req: Request) {
   console.log(`Installing addon: ${id}`);
 
   if (!augmentation) {
-    return errorResponse("No augmentation URL supplied");
+    return badRequest("No augmentation URL supplied");
   }
 
   const response = await registerAugmentation(
@@ -34,14 +37,13 @@ async function performInstall(req: Request) {
   );
 
   if (response.ok) {
-    return ok(null, {
-      "HX-Refresh": "true",
-    });
+    return noContent({ "HX-Refresh": "true" });
   } else {
     console.error("INSTALL FAILED", response);
-    return errorResponse(
-      `Failed to register augmentation: ${augmentation}, for addon: ${id}`,
+    return plainError(
       response.status,
+      response.statusText,
+      `Failed to register augmentation: ${augmentation}, for addon: ${id}`,
     );
   }
 }

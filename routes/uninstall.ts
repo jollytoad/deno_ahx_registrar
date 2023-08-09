@@ -1,7 +1,10 @@
 import { byMethod } from "$http_fns/method.ts";
-import { getBodyAsObject } from "$http_fns/request.ts";
-import { errorResponse, notFound, ok } from "$http_fns/response.ts";
+import { getBodyAsObject } from "$http_fns/request/body_as_object.ts";
 import { fetchAugmentations, unregisterAugmentation } from "@/lib/registry.ts";
+import { notFound } from "$http_fns/response/not_found.ts";
+import { badRequest } from "$http_fns/response/bad_request.ts";
+import { plainError } from "$http_fns/response/plain_error.ts";
+import { noContent } from "$http_fns/response/no_content.ts";
 
 export default byMethod({
   POST: performUninstall,
@@ -25,7 +28,7 @@ async function performUninstall(req: Request) {
   console.log(`Uninstalling addon: ${id}`);
 
   if (!augmentation) {
-    return errorResponse("No augmentation URL supplied");
+    return badRequest("No augmentation URL supplied");
   }
 
   const augmentations = await fetchAugmentations(registryUrl);
@@ -41,14 +44,13 @@ async function performUninstall(req: Request) {
   );
 
   if (response.ok) {
-    return ok(null, {
-      "HX-Refresh": "true",
-    });
+    return noContent({ "HX-Refresh": "true" });
   } else {
     console.error("UNINSTALL FAILED", response);
-    return errorResponse(
-      `Failed to unregister augmentation: ${augmentation}, for addon: ${id}`,
+    return plainError(
       response.status,
+      response.statusText,
+      `Failed to unregister augmentation: ${augmentation}, for addon: ${id}`,
     );
   }
 }

@@ -1,8 +1,8 @@
 import { renderHTML } from "$http_render_fns/render_html.tsx";
 import { byMethod } from "$http_fns/method.ts";
 import { mapData } from "$http_fns/map.ts";
-import { getSearchValues } from "$http_fns/request.ts";
-import { notFound } from "$http_fns/response.ts";
+import { getSearchValues } from "$http_fns/request/search_values.ts";
+import { notFound } from "$http_fns/response/not_found.ts";
 import { fetchAugmentations } from "@/lib/registry.ts";
 
 export default byMethod({
