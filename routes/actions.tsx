@@ -3,16 +3,18 @@ import { byMethod } from "$http_fns/method.ts";
 import { mapData } from "$http_fns/map.ts";
 import { getSearchValues } from "$http_fns/request/search_values.ts";
 import { notFound } from "$http_fns/response/not_found.ts";
-import { fetchAugmentations } from "@/lib/registry.ts";
+import { fetchAugmentations } from "../lib/registry.ts";
+import { canRegister } from "../lib/permission.ts";
 
 export default byMethod({
   GET: mapData(asActionProps, renderHTML(AddonActions)),
 });
 
 interface Props {
+  permitted: boolean;
   addonId?: string;
   augmentation?: string;
-  installed: boolean;
+  installed?: boolean;
   reqURL?: URL | string;
 }
 
@@ -33,11 +35,18 @@ async function asActionProps(req: Request): Promise<Props> {
     throw notFound();
   }
 
+  if (!await canRegister(req)) {
+    return {
+      permitted: false,
+    };
+  }
+
   const augmentations = await fetchAugmentations(registryUrl);
   const aug = augmentations.find(({ url }) => url === augmentation);
   const installed = !!aug?.enable;
 
   return {
+    permitted: true,
     addonId,
     augmentation,
     installed,
@@ -45,20 +54,22 @@ async function asActionProps(req: Request): Promise<Props> {
   };
 }
 
-function AddonActions({ installed, reqURL }: Props) {
-  return (
-    <>
-      {installed
-        ? (
-          <button hx-post={`${reqURL}/uninstall`}>
-            Uninstall
-          </button>
-        )
-        : (
-          <button hx-post={`${reqURL}/install`}>
-            Install
-          </button>
-        )}
-    </>
-  );
+function AddonActions({ permitted, installed, reqURL }: Props) {
+  if (!permitted) {
+    return null;
+  }
+
+  if (installed) {
+    return (
+      <button hx-post={`${reqURL}/uninstall`}>
+        Uninstall
+      </button>
+    );
+  } else {
+    return (
+      <button hx-post={`${reqURL}/install`}>
+        Install
+      </button>
+    );
+  }
 }

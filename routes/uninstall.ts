@@ -1,10 +1,12 @@
 import { byMethod } from "$http_fns/method.ts";
 import { getBodyAsObject } from "$http_fns/request/body_as_object.ts";
-import { fetchAugmentations, unregisterAugmentation } from "@/lib/registry.ts";
+import { fetchAugmentations, unregisterAugmentation } from "../lib/registry.ts";
 import { notFound } from "$http_fns/response/not_found.ts";
 import { badRequest } from "$http_fns/response/bad_request.ts";
 import { plainError } from "$http_fns/response/plain_error.ts";
 import { noContent } from "$http_fns/response/no_content.ts";
+import { canRegister } from "../lib/permission.ts";
+import { forbidden } from "$http_fns/response/forbidden.ts";
 
 export default byMethod({
   POST: performUninstall,
@@ -21,6 +23,10 @@ async function performUninstall(req: Request) {
   if (!registryUrl) {
     console.warn("REGISTRY_URL env var not set!");
     throw notFound();
+  }
+
+  if (!await canRegister(req)) {
+    return forbidden();
   }
 
   const { id, augmentation } = await getBodyAsObject<ActionData>(req);

@@ -1,3 +1,5 @@
+import { registryAuthHeaders } from "./permission.ts";
+
 export interface Augmentation {
   id: string;
   url: string;
@@ -27,6 +29,7 @@ export function registerAugmentation(
   return fetch(registryURL, {
     method: "POST",
     headers: {
+      ...registryAuthHeaders(),
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -42,5 +45,6 @@ export function unregisterAugmentation(
 ): Promise<Response> {
   return fetch(`${registryURL}/-/aug/${augId}`, {
     method: "DELETE",
+    headers: registryAuthHeaders()
   });
 }

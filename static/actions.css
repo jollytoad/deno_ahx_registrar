@@ -7,4 +7,7 @@
   --hx-include: closest form;
   --hx-params: id, augmentation, action;
   --hx-trigger: load once;
+  --hx-headers: {
+    "X-Gitlab-User-Details": "id email"
+  };
 }
