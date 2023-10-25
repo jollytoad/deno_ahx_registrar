@@ -45,6 +45,6 @@ export function unregisterAugmentation(
 ): Promise<Response> {
   return fetch(`${registryURL}/-/aug/${augId}`, {
     method: "DELETE",
-    headers: registryAuthHeaders()
+    headers: registryAuthHeaders(),
   });
 }

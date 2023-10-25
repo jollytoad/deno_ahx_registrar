@@ -1,6 +1,10 @@
 // deno-lint-ignore require-await
 export async function canRegister(req: Request) {
   try {
+    if (Deno.env.get("ANON_EDIT") === "true") {
+      return true;
+    }
+
     const registryToken = Deno.env.get("REGISTRY_TOKEN");
 
     if (registryToken) {
@@ -27,11 +31,11 @@ export async function canRegister(req: Request) {
 
 export function registryAuthHeaders(): Record<string, string> {
   try {
-    const registryToken = Deno.env.get('REGISTRY_TOKEN');
-    
+    const registryToken = Deno.env.get("REGISTRY_TOKEN");
+
     if (registryToken) {
       return {
-        "Authorization": `Bearer ${registryToken}`
+        "Authorization": `Bearer ${registryToken}`,
       };
     }
   } catch (e) {

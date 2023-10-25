@@ -1,4 +1,6 @@
 html:has(.marketplace-main .addon-actions) {
-  --data-addons: --append() "%ID%";
-  --css-rule-import: url("actions.css");
+  --ahx-trigger: load;
+  --ahx-harvest: "%ID%";
+  --ahx-swap: attr "ahx-data-addons" join;
+  --ahx-import: url("actions.css");
 }

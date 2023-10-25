@@ -3,11 +3,18 @@
 }
 
 .marketplace-main .addon-actions::before {
-  --hx-get: url("actions");
-  --hx-include: closest form;
-  --hx-params: id, augmentation, action;
-  --hx-trigger: load once;
-  --hx-headers: {
+  --ahx-trigger: load once;
+  --ahx-get: url("actions");
+  --ahx-swap: inner;
+  --ahx-include: closest form;
+  --ahx-params: id, augmentation, action;
+  --ahx-headers: {
     "X-Gitlab-User-Details": "id email"
   };
+}
+
+.marketplace-main .addon-actions button {
+  --ahx-trigger: click;
+  --ahx-post: attr(ahx-post url);
+  --ahx-include: closest form;
 }

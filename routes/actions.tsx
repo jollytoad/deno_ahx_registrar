@@ -61,13 +61,13 @@ function AddonActions({ permitted, installed, reqURL }: Props) {
 
   if (installed) {
     return (
-      <button hx-post={`${reqURL}/uninstall`}>
+      <button type="button" ahx-post={`${reqURL}/uninstall`}>
         Uninstall
       </button>
     );
   } else {
     return (
-      <button hx-post={`${reqURL}/install`}>
+      <button type="button" ahx-post={`${reqURL}/install`}>
         Install
       </button>
     );

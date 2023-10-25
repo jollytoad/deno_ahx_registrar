@@ -43,7 +43,7 @@ async function performInstall(req: Request) {
   );
 
   if (response.ok) {
-    return noContent({ "HX-Refresh": "true" });
+    return noContent({ "AHX-Refresh": "true" });
   } else {
     console.error("INSTALL FAILED", response);
     return plainError(

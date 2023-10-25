@@ -50,7 +50,7 @@ async function performUninstall(req: Request) {
   );
 
   if (response.ok) {
-    return noContent({ "HX-Refresh": "true" });
+    return noContent({ "AHX-Refresh": "true" });
   } else {
     console.error("UNINSTALL FAILED", response);
     return plainError(
