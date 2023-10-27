@@ -1,3 +1,4 @@
+/* Determine whether a marketplace containing addon cards is present */
 html:has(.marketplace-main .addon-actions) {
   --ahx-trigger: load;
   --ahx-harvest: "%ID%";
