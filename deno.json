@@ -3,7 +3,7 @@
     "gen": "deno run --allow-net --allow-read=./routes,./routes.ts --allow-write=./routes.ts scripts/gen.ts",
     "start": "deno run --allow-env --allow-net --allow-read --allow-write=./routes.ts --watch scripts/dev.ts",
     "start:prod": "deno run --allow-net --allow-read main.ts",
-    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.8.1/deployctl.ts deploy --import-map=deno.json --project=ahx-preview-registrar main.ts",
+    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.8.2/deployctl.ts deploy --import-map=deno.json --project=ahx-preview-registrar main.ts",
     "check": "deno fmt && deno lint && deno check **/*.ts",
     "lock": "rm -f deno.lock && deno check main.ts"
   },
