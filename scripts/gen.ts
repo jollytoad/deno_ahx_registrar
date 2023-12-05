@@ -1,4 +1,4 @@
-import { generateRoutesModule } from "$http_fns/generate.ts";
+import { generateRoutesModule } from "$http_fns/generate_routes_module.ts";
 
 function generateRoutes() {
   console.debug("Generating routes");

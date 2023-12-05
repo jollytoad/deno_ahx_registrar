@@ -1,4 +1,4 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { getBodyAsObject } from "$http_fns/request/body_as_object.ts";
 import { registerAugmentation } from "../lib/registry.ts";
 import { notFound } from "$http_fns/response/not_found.ts";
